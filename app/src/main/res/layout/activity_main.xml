@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_get_retrofit"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="Get Method Retrofit"
+        app:layout_constraintBottom_toTopOf="@id/btn_post_retrofit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_post_retrofit"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="Post Method Retrofit"
+        app:layout_constraintBottom_toBottomOf="@id/btn_upload_retrofit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_get_retrofit" />
+
+    <Button
+        android:id="@+id/btn_upload_retrofit"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="Upload Using Retrofit"
+        app:layout_constraintBottom_toTopOf="@id/btn_get_volley"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_post_retrofit" />
+
+    <Button
+        android:id="@+id/btn_get_volley"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="Get Method Volley"
+        app:layout_constraintBottom_toTopOf="@id/btn_post_volley"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_upload_retrofit" />
+
+    <Button
+        android:id="@+id/btn_post_volley"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="Post Method Volley"
+        app:layout_constraintBottom_toTopOf="@id/btn_upload_volley"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_get_volley" />
+
+    <Button
+        android:id="@+id/btn_upload_volley"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:text="Upload Using Volley"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_post_volley" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
