@@ -7,16 +7,22 @@ import io.reactivex.Single;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Api_Service {
 
-    private final String BASE_URL = "http://192.168.0.3/company";
+    private final String BASE_URL = "http://192.168.0.6/Bank/";
     private Api_Interface api_interface;
 
     public Api_Service(){
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
         OkHttpClient okHttpClient=new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
@@ -34,12 +40,13 @@ public class Api_Service {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
+                .client(client)
                 .build();
 
         api_interface=retrofit.create(Api_Interface.class);
     }
 
-    public Single<List<Model>> get_List(){
+    public Single<List<EmployeeModel>> get_List(){
         return api_interface.get_List();
     }
 }
