@@ -22,6 +22,8 @@
 
         <activity android:name=".Retrofit.Get_Retrofit_Activity"/>
 
+        <activity android:name=".Retrofit.Post_Retrofit_Activity"/>
+
     </application>
 
 </manifest>
