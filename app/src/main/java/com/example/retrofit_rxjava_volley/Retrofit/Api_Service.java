@@ -1,14 +1,23 @@
 package com.example.retrofit_rxjava_volley.Retrofit;
 
+import android.net.Uri;
+import android.os.FileUtils;
+
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -16,14 +25,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Api_Service {
 
-    private final String BASE_URL = "http://192.168.0.4/Bank/";
+    private final String BASE_URL = "http://192.168.0.3/Bank/";
     private Api_Interface api_interface;
 
     public Api_Service() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
@@ -35,14 +43,15 @@ public class Api_Service {
 //                        newRequestBuilder.addHeader("Authorization","YOUR TOKEN");
                         return chain.proceed(newRequestBuilder.build());
                     }
-                }).build();
+                })
+                .addInterceptor(interceptor)
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
-                .client(client)
                 .build();
 
         api_interface = retrofit.create(Api_Interface.class);
@@ -60,4 +69,27 @@ public class Api_Service {
     public Single<List<EmployeeModel>> get_List() {
         return api_interface.get_List();
     }
+
+    public Single<ResponseBody> uploadFile(Uri uri, String textDescription) {
+
+        // use the FileUtils to get the actual file by uri
+        File file = FileUtils.getFile(this, uri);
+
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse(getContentResolver().getType(fileUri)),
+                        file
+                );
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("picture", file.getName(), requestFile);
+
+        // add another part within the multipart request
+        RequestBody description =
+                RequestBody.create(
+                        okhttp3.MultipartBody.FORM, textDescription);
+    }
+
 }
