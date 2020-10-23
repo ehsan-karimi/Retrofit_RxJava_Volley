@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.retrofit_rxjava_volley.Retrofit.Api_Service;
 import com.example.retrofit_rxjava_volley.Retrofit.Get_Retrofit_Activity;
 import com.example.retrofit_rxjava_volley.Retrofit.Post_Retrofit_Activity;
+import com.example.retrofit_rxjava_volley.Volley.Get_Volley_Activity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_get_retrofit;
     private Button btn_post_retrofit;
     private Button btn_upload_retrofit;
+    private Button btn_get_volley;
     private static final int PICK_IMAGE = 1;
     private Api_Service apiService;
     private Disposable disposable;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         btn_get_retrofit = findViewById(R.id.btn_get_retrofit);
         btn_post_retrofit = findViewById(R.id.btn_post_retrofit);
         btn_upload_retrofit = findViewById(R.id.btn_upload_retrofit);
+        btn_get_volley = findViewById(R.id.btn_get_volley);
 
         Dexter.withContext(this)
                 .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -96,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
             startActivityForResult(chooserIntent, PICK_IMAGE);
 
+        });
+
+        btn_get_volley.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Get_Volley_Activity.class);
+            startActivity(intent);
         });
     }
 

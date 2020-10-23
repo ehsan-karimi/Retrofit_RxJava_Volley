@@ -1,4 +1,4 @@
-package com.example.retrofit_rxjava_volley.Retrofit;
+package com.example.retrofit_rxjava_volley;
 
 public class EmployeeModel {
     private String id;

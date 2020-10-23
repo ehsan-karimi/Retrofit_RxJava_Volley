@@ -1,18 +1,14 @@
 package com.example.retrofit_rxjava_volley.Retrofit;
 
-import android.net.Uri;
-import android.os.FileUtils;
-
+import com.example.retrofit_rxjava_volley.EmployeeModel;
 import com.google.gson.JsonObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

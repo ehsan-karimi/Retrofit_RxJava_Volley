@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.retrofit_rxjava_volley.EmployeeModel;
 import com.example.retrofit_rxjava_volley.R;
 
 import java.util.List;
