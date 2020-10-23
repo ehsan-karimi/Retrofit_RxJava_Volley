@@ -70,17 +70,7 @@ public class Api_Service {
         return api_interface.get_List();
     }
 
-    public Single<ResponseBody> uploadFile(Uri uri, String textDescription) {
-
-        // use the FileUtils to get the actual file by uri
-        File file = FileUtils.getFile(this, uri);
-
-        // create RequestBody instance from file
-        RequestBody requestFile =
-                RequestBody.create(
-                        MediaType.parse(getContentResolver().getType(fileUri)),
-                        file
-                );
+    public Single<ResponseBody> uploadFile(File file, String textDescription, RequestBody requestFile) {
 
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body =
@@ -90,6 +80,8 @@ public class Api_Service {
         RequestBody description =
                 RequestBody.create(
                         okhttp3.MultipartBody.FORM, textDescription);
+
+        return api_interface.upload(description, body);
     }
 
 }

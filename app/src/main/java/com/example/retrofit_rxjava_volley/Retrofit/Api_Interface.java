@@ -27,7 +27,7 @@ public interface Api_Interface {
     Single<String> add_Employee(@Body JsonObject body);
 
     @Multipart
-    @POST("upload")
+    @POST("upload.php")
     Single<ResponseBody> upload(
             @Part("description") RequestBody description,
             @Part MultipartBody.Part file
