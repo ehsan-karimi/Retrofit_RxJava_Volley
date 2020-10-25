@@ -16,6 +16,7 @@ import com.example.retrofit_rxjava_volley.Retrofit.Api_Service;
 import com.example.retrofit_rxjava_volley.Retrofit.Get_Retrofit_Activity;
 import com.example.retrofit_rxjava_volley.Retrofit.Post_Retrofit_Activity;
 import com.example.retrofit_rxjava_volley.Volley.Get_Volley_Activity;
+import com.example.retrofit_rxjava_volley.Volley.Post_Volley_Activity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_post_retrofit;
     private Button btn_upload_retrofit;
     private Button btn_get_volley;
+    private Button btn_post_volley;
     private static final int PICK_IMAGE = 1;
     private Api_Service apiService;
     private Disposable disposable;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         btn_post_retrofit = findViewById(R.id.btn_post_retrofit);
         btn_upload_retrofit = findViewById(R.id.btn_upload_retrofit);
         btn_get_volley = findViewById(R.id.btn_get_volley);
+        btn_post_volley = findViewById(R.id.btn_post_volley);
 
         Dexter.withContext(this)
                 .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -105,6 +108,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Get_Volley_Activity.class);
             startActivity(intent);
         });
+
+        btn_post_volley.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, Post_Volley_Activity.class);
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -137,8 +145,6 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onSuccess(ResponseBody responseBody) {
-                                //you can parse json and show success or failed
-                                //in this sample i just show success
                                 Toast.makeText(MainActivity.this, "Successfully Uploaded!!!", Toast.LENGTH_LONG).show();
                             }
 

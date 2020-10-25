@@ -28,6 +28,8 @@
 
         <activity android:name=".Volley.Get_Volley_Activity"/>
 
+        <activity android:name=".Volley.Post_Volley_Activity"/>
+
     </application>
 
 </manifest>

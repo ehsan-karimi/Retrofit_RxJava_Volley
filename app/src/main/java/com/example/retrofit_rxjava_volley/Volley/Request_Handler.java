@@ -16,6 +16,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
@@ -32,7 +33,7 @@ public class Request_Handler {
 
     private static Request_Handler INSTANCE = null;
 
-    private final String BASE_URL = "http://192.168.0.3/Bank/";
+    private final String BASE_URL = "http://192.168.0.4/Bank/";
 
     // other instance variables can be here
 
@@ -65,7 +66,7 @@ public class Request_Handler {
     }
 
     // request to server with post method and body
-    public void post_Request(String url, Context context, JSONObject jsonObject, final VolleyCallback callback) {
+    public void post_Request(String url, Context context, JsonObject jsonObject, final VolleyCallback callback) {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
@@ -75,7 +76,7 @@ public class Request_Handler {
                 BASE_URL + url, null, response -> {
             callback.onSuccess(response.toString());
             // VolleyLog.d("volley said: ", response.toString());
-        }, error -> VolleyLog.e("volley error said: ", String.valueOf(error.networkResponse))) {
+        }, error -> VolleyLog.e("volley error said: ", String.valueOf(error.getMessage()))) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -99,15 +100,28 @@ public class Request_Handler {
     }
 
     // request to server with post method and params
-    public void post_Request_With_Params(String url, Context context, Map<String, String> params, final VolleyCallback callback) {
+    public void post_Request_With_Params(String url, Context context, JsonObject params, final VolleyCallback callback) {
+
+        final String requestBody = params.toString();
 
         StringRequest string_Req = new StringRequest(Request.Method.POST, BASE_URL + url, response -> {
             callback.onSuccess(response);
             //   Log.d("volley said: ", response);
         }, error -> Log.d("volley error said: ", error.toString())) {
+//            @Override
+//            protected Map<String, String> getParams() {
+//                return params;
+//            }
+
             @Override
-            protected Map<String, String> getParams() {
-                return params;
+            public byte[] getBody() throws AuthFailureError {
+                try {
+                    return requestBody == null ? null : requestBody.getBytes("utf-8");
+                } catch (UnsupportedEncodingException uee) {
+                    //     VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s",
+                    //           requestBody, "utf-8");
+                    return null;
+                }
             }
         };
         requestQueue = Volley.newRequestQueue(context);
