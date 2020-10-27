@@ -1,12 +1,14 @@
 package com.example.retrofit_rxjava_volley.Volley;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.VolleyError;
 import com.example.retrofit_rxjava_volley.EmployeeModel;
 import com.example.retrofit_rxjava_volley.R;
 import com.example.retrofit_rxjava_volley.Retrofit.EmployeeAdapter;
@@ -38,7 +40,6 @@ public class Get_Volley_Activity extends AppCompatActivity {
             public void onSuccess(String result) {
 
 
-
                 java.util.List<EmployeeModel> employeeModels = new Gson().fromJson(result, new TypeToken<java.util.List<EmployeeModel>>() {
                 }.getType());
 
@@ -46,6 +47,11 @@ public class Get_Volley_Activity extends AppCompatActivity {
                 employeeAdapter = new EmployeeAdapter(employeeModels);
                 recyclerView.setAdapter(employeeAdapter);
 
+            }
+
+            @Override
+            public void onFailure(VolleyError volleyError) {
+                Toast.makeText(Get_Volley_Activity.this, "Unspecified Error!!!", Toast.LENGTH_LONG).show();
             }
         });
     }

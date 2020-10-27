@@ -40,6 +40,7 @@ public class VolleyController extends Application {
 
         return mRequestQueue;
     }
+
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
         getRequestQueue().add(req);

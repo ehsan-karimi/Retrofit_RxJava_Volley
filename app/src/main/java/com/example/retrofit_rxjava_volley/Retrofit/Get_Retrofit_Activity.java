@@ -57,7 +57,7 @@ public class Get_Retrofit_Activity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(Get_Retrofit_Activity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Get_Retrofit_Activity.this, "Unspecified Error!!!", Toast.LENGTH_LONG).show();
                     }
                 });
     }

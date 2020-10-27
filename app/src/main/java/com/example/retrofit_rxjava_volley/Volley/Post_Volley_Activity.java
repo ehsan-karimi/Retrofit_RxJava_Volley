@@ -1,19 +1,20 @@
 package com.example.retrofit_rxjava_volley.Volley;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.VolleyError;
 import com.example.retrofit_rxjava_volley.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Post_Volley_Activity extends AppCompatActivity {
 
@@ -40,30 +41,29 @@ public class Post_Volley_Activity extends AppCompatActivity {
     }
 
     private void setOnClick() {
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendToServer();
-            }
-        });
+        saveBtn.setOnClickListener(view -> sendToServer());
     }
 
     private void sendToServer() {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("first_name", firstNameEt.getText().toString());
-        params.put("last_name", lastNameEt.getText().toString());
-        params.put("phone_number", phoneNumberEt.getText().toString());
+        Map<String, String> params = new HashMap<>();
+        params.put("first_name", Objects.requireNonNull(firstNameEt.getText()).toString());
+        params.put("last_name", Objects.requireNonNull(lastNameEt.getText()).toString());
+        params.put("phone_number", Objects.requireNonNull(phoneNumberEt.getText()).toString());
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("first_name", firstNameEt.getText().toString());
         jsonObject.addProperty("last_name", lastNameEt.getText().toString());
         jsonObject.addProperty("phone_number", phoneNumberEt.getText().toString());
 
-        volleyRequest.post_Request_With_Params("add_employee.php", Post_Volley_Activity.this, jsonObject, new VolleyCallback() {
+        volleyRequest.post_Request("add_employee.php", Post_Volley_Activity.this, jsonObject, new VolleyCallback() {
             @Override
             public void onSuccess(String result) {
-                Log.e("status :", result);
                 Toast.makeText(Post_Volley_Activity.this, "successfully inserted", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(VolleyError volleyError) {
+                Toast.makeText(Post_Volley_Activity.this, "Unspecified Error!!!", Toast.LENGTH_LONG).show();
             }
         });
     }

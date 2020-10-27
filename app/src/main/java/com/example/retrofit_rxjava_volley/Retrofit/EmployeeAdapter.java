@@ -1,5 +1,6 @@
 package com.example.retrofit_rxjava_volley.Retrofit;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
             firstCharacterTv = itemView.findViewById(R.id.tv_student_firstCharacter);
         }
 
+        @SuppressLint("SetTextI18n")
         public void bind(EmployeeModel employeeModel) {
             fullNameTv.setText(employeeModel.getFirstname() + " " + employeeModel.getLastname());
             courseTitleTv.setText(employeeModel.getLastname());

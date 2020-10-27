@@ -1,8 +1,7 @@
 package com.example.retrofit_rxjava_volley.Retrofit;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.retrofit_rxjava_volley.R;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Objects;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,21 +44,16 @@ public class Post_Retrofit_Activity extends AppCompatActivity {
     }
 
     private void setOnClick() {
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendToServer();
-            }
-        });
+        saveBtn.setOnClickListener(view -> sendToServer());
     }
 
     private void sendToServer() {
         if (firstNameEt.length() > 0 &&
                 lastNameEt.length() > 0 &&
                 phoneNumberEt.length() > 0) {
-            apiService.saveStudent(firstNameEt.getText().toString(),
-                    lastNameEt.getText().toString(),
-                    phoneNumberEt.getText().toString())
+            apiService.saveStudent((Objects.requireNonNull(firstNameEt.getText())).toString(),
+                    (Objects.requireNonNull(lastNameEt.getText())).toString(),
+                    (Objects.requireNonNull(phoneNumberEt.getText())).toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new SingleObserver<String>() {
@@ -73,7 +69,8 @@ public class Post_Retrofit_Activity extends AppCompatActivity {
 
                         @Override
                         public void onError(Throwable e) {
-                            Toast.makeText(Post_Retrofit_Activity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            Log.e("TAG", "onError: " + e.getMessage() );
+                            Toast.makeText(Post_Retrofit_Activity.this, "Unspecified Error!!!", Toast.LENGTH_LONG).show();
                         }
                     });
         }

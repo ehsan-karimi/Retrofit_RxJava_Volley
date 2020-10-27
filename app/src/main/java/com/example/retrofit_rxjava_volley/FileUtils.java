@@ -8,6 +8,7 @@ import android.provider.OpenableColumns;
 import android.util.Log;
 
 import java.io.File;
+import java.util.Objects;
 
 public class FileUtils {
     public String displayName;
@@ -16,37 +17,28 @@ public class FileUtils {
     public String path;
 
     @Override
-    public String toString()
-    {
-      //  return "name : " + displayName + " ; size : " + size + " ; path : " + path + " ; mime : " + mimeType;
-        return  displayName;
+    public String toString() {
+        //  return "name : " + displayName + " ; size : " + size + " ; path : " + path + " ; mime : " + mimeType;
+        return displayName;
     }
 
 
-
-    public static FileUtils getFileMetaData(Context context, Uri uri)
-    {
+    public static FileUtils getFileMetaData(Context context, Uri uri) {
         FileUtils fileMetaData = new FileUtils();
 
-        if ("file".equalsIgnoreCase(uri.getScheme()))
-        {
-            File file = new File(uri.getPath());
+        if ("file".equalsIgnoreCase(uri.getScheme())) {
+            File file = new File(Objects.requireNonNull(uri.getPath()));
             fileMetaData.displayName = file.getName();
             fileMetaData.size = file.length();
             fileMetaData.path = file.getPath();
 
             return fileMetaData;
-        }
-        else
-        {
+        } else {
             ContentResolver contentResolver = context.getContentResolver();
-            Cursor cursor = contentResolver.query(uri, null, null, null, null);
-            fileMetaData.mimeType = contentResolver.getType(uri);
 
-            try
-            {
-                if (cursor != null && cursor.moveToFirst())
-                {
+            try (Cursor cursor = contentResolver.query(uri, null, null, null, null)) {
+                fileMetaData.mimeType = contentResolver.getType(uri);
+                if (cursor != null && cursor.moveToFirst()) {
                     int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
                     fileMetaData.displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
 
@@ -55,26 +47,16 @@ public class FileUtils {
                     else
                         fileMetaData.size = -1;
 
-                    try
-                    {
+                    try {
                         fileMetaData.path = cursor.getString(cursor.getColumnIndexOrThrow("_data"));
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         // DO NOTHING, _data does not exist
                     }
 
                     return fileMetaData;
                 }
-            }
-            catch (Exception e)
-            {
-                Log.e("file", e.getMessage());
-            }
-            finally
-            {
-                if (cursor != null)
-                    cursor.close();
+            } catch (Exception e) {
+                Log.e("file", Objects.requireNonNull(e.getMessage()));
             }
 
             return null;
